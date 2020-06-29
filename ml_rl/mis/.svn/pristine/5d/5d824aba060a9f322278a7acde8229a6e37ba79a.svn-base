@@ -1,0 +1,134 @@
+
+<ui:composition template="/pages/template/common/commonLayout.xhtml"
+  				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+	<!--  Area para colocar o CSS da Pagina  -->
+	<ui:define name="css">
+	
+	</ui:define>			
+	<!--  Area para colocar o conteudo da Pagina  -->
+ 	<ui:define name="content">
+ 		<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" /> 
+	    		
+	   	<p:panel id="cadastroUsuario" header="#{msg.cadastrarUsuario}" toggleOrientation="horizontal" widgetVar="panel" styleClass="panel" closable="true" closeSpeed="500">
+ 			
+ 			<p:ajax event="close" oncomplete="$('#content').remove()"/>    	
+	   	
+			<h:form>
+    			<h:panelGroup id="usarioGroupPanel">
+	    			<h:panelGrid columns="6"  cellpadding="5" id="cadastroUsuarioForm1">  
+	    					<h:outputLabel for="nomeCompletoUsuarioField"  class="label" id="nomeCompletoUsuarioLavel" value="#{msg.nomeCompleto}:"/>
+							<p:inputText   id="nomeCompletoUsuarioField" value="#{usuarioManagedBean.usuario.nomeCompleto}" styleClass="field" maxlength="80" />
+	    			
+	    					<h:outputLabel for="dataNascimentoUsuarioField" class="label" id="dataNascimentoUsuarioLavel" value="#{msg.dataNascimento}:" />
+							<p:inputMask id="dataNascimentoUsuarioField" value="#{usuarioManagedBean.usuario.dataNascimento}" mask="99/99/9999" styleClass="field"/>
+							
+	    				    <h:outputLabel for="emailUsuarioField" class="label" id="emailUsuarioLavel" value="#{msg.email}:" />
+		 				    <p:inputText   id="emailUsuarioField" value="#{usuarioManagedBean.usuario.email}" required="true"  requiredMessage="#{msg.emailUsuarioRequerido}" maxlength="80" validator="#{usuarioValidator.validaEmail}" validatorMessage="#{msg.emailInvalido}">
+		 				    	<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+		 				    </p:inputText>
+		 				    
+							<h:outputLabel for="senhaUsuarioField" class="label" id="senhaUsuarioLabel" value="#{msg.senha}:" />
+							<p:password id="senhaUsuarioField" value="#{usuarioManagedBean.usuario.senha}"  required="true" feedback="true" requiredMessage="#{msg.senhaUsuarioRequerido}" styleClass="field" validator="#{usuarioValidator.validaSenha}">
+								<f:attribute name="confirm" value="#{confirm}" />
+							</p:password>
+							
+							<h:outputLabel for="confirm" class="label" id="senhaConfirmacaoUsuarioLavel" value="#{msg.confirmacaoSenha}:" /> 
+							<p:password id="confirm" binding="#{confirm}" value="#{usuarioManagedBean.senhaConfirmacao}"  required="true" requiredMessage="#{msg.senhaConfirmacaoUsuarioRequerido}" styleClass="field"/>  
+					</h:panelGrid>	
+					
+					<h:panelGrid columns="6"  cellpadding="5" id="cadastroUsuarioForm2">
+					 						   							
+												 
+					 		 <h:outputLabel for="enderecoUsuarioField" class="label" id="enderecoUsuarioLavel" value="#{msg.endereco}:"/>
+							 <p:inputText   id="enderecoUsuarioField" value="#{usuarioManagedBean.usuario.endereco}" styleClass="field" maxlength="80" />
+					 
+							 <h:outputLabel for="cepUsuarioField" class="label" id="cepUsuarioLavel" value="#{msg.cep}:" />
+							 <p:inputMask id="cepUsuarioField" value="#{usuarioManagedBean.usuario.cep}" mask="99999-999" styleClass="field"/>							
+
+					 		 <h:outputLabel for="municipioUsuarioField"  class="label" id="municipioUsuarioLavel" value="#{msg.municipio}:"/>
+							 <p:inputText   id="municipioUsuarioField" value="#{usuarioManagedBean.usuario.municipio}" styleClass="field" maxlength="30" />
+							
+														
+														
+							 <h:outputLabel for="ufUsuarioField"  class="label" id="ufUsuarioLavel" value="#{msg.uf}:"/>
+							 <p:selectOneMenu id="ufUsuarioField" value="#{usuarioManagedBean.usuario.estado}" styleClass="field" maxlength="2" filter="true"> 
+								<f:selectItems value="#{usuarioManagedBean.estados}" var="estado" itemLabel="#{estado.nome}" itemValue="#{estado}" /> 
+							 </p:selectOneMenu> 
+							
+							 <h:outputLabel for="paisUsuarioField"  class="label" id="paisUsuarioLavel" value="#{msg.pais}:"/>
+							 <p:inputText   id="paisUsuarioField" value="#{usuarioManagedBean.usuario.pais}" styleClass="field" maxlength="30" />
+					
+		        			 <h:outputLabel id="confirmadoUsuarioLabel" styleClass="label" for="confirmadoUsuarioField"  value="#{msg.confirmado}:" />
+		        			 <p:selectBooleanCheckbox  id="confirmadoUsuarioField" value="#{usuarioManagedBean.usuario.confirmado}" /> 
+					</h:panelGrid>		
+					
+					
+					<h:panelGrid columns="6"  cellpadding="5" id="cadastroUsuarioForm3"> 
+													
+							<h:outputLabel  class="label" id="escolaridadeUsuarioLabel" value="#{msg.escolaridade}:"/>
+							<p:selectOneMenu value="#{usuarioManagedBean.usuario.escolaridade}">  
+							    <f:selectItem itemLabel="Ensino Fundamental" itemValue="Ensino Fundamental" />  
+							    <f:selectItem itemLabel="Ensino Médio" itemValue="Ensino Médio" />  
+							    <f:selectItem itemLabel="Superior Incompleto" itemValue="Superior Incompleto" />  
+							    <f:selectItem itemLabel="Superior" itemValue="Superior" />  
+							</p:selectOneMenu>
+			
+							<h:outputLabel for="instituicaoUsuarioField"  class="label" id="instituicaoUsuarioLavel" value="#{msg.instituicao}:"/>
+							<p:inputText   id="instituicaoUsuarioField" value="#{usuarioManagedBean.usuario.instituicao}" styleClass="field" maxlength="80" />
+							
+							<h:outputLabel for="profisaoUsuarioField"  class="label" id="profisaoUsuarioLavel" value="#{msg.profissao}:"/>
+							<p:inputText   id="profisaoUsuarioField" value="#{usuarioManagedBean.usuario.profissao}" styleClass="field" maxlength="50" />
+							
+							<h:outputLabel for="serieUsuarioField"  class="label" id="serieUsuarioLavel" value="#{msg.serie}:"/>
+							<p:inputText   id="serieUsuarioField" value="#{usuarioManagedBean.usuario.serie}" styleClass="field" maxlength="2" />	
+							
+							<h:outputLabel for="cargoUsuarioField"  class="label" id="cargoUsuarioLabel" value="#{msg.cargo}:"/>
+		        			 <p:selectOneListbox id="cargoUsuarioField" value="#{usuarioManagedBean.usuario.cargo}" required="true" requiredMessage="#{msg.cargoRequerido}">   
+									<f:selectItems value="#{usuarioManagedBean.cargos}" var="cargo" itemLabel="#{cargo.nomeExibido}" itemValue="#{cargo}" />
+							 </p:selectOneListbox>
+							 
+							 
+					</h:panelGrid>			 	
+			 		 
+					<h:panelGrid  columns="6"  cellpadding="5" id="cadastroUsuarioForm5">
+						
+						<h:outputLabel for="setorUsuarioField"  class="label" id="setorLabel" value="#{msg.setor}:"/>
+							 <p:selectOneMenu id="setorField" value="#{usuarioManagedBean.usuario.setor}" styleClass="field" maxlength="2" filter="true"> 
+								<f:selectItems value="#{usuarioManagedBean.setores}" var="setor" itemLabel="#{setor.nomeExibido}" itemValue="#{setor}" /> 
+							 </p:selectOneMenu> 
+							
+						    <h:panelGrid columns="2" style="margin-bottom:10px">   
+						    	
+						    	<f:facet name="header">  
+						        	Permissões
+						   		</f:facet>
+					  
+						        <h:outputText value="ler: " />  
+						        <p:selectBooleanCheckbox value="#{usuarioManagedBean.usuario.atribuicao.ler}" />  
+						  
+						        <h:outputText value="escrever: " />  
+						        <p:selectBooleanCheckbox value="#{usuarioManagedBean.usuario.atribuicao.escrever}" />  
+						  	
+						  		<h:outputText value="deletar: " />  
+						        <p:selectBooleanCheckbox value="#{usuarioManagedBean.usuario.atribuicao.deletar}" /> 
+						        
+						        <h:outputText value="confirmar: " />  
+						        <p:selectBooleanCheckbox value="#{usuarioManagedBean.usuario.atribuicao.confirmar}" /> 
+					        </h:panelGrid>
+					      
+					</h:panelGrid>	
+												
+					
+				</h:panelGroup>
+							
+	
+	    		<h:commandButton type="submit"	value="#{msg.buttonSave}" action="#{usuarioManagedBean.salvarUsuario}" update="usarioGroupPanel" />
+	    		
+			</h:form>
+		</p:panel>	
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,88 @@
+<ui:composition template="/pages/template/common/commonLayout.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+				
+	<!--  Area para colocar o CSS da Pagina  -->
+	<ui:define name="css">
+	
+	</ui:define>			
+	<!--  Area para colocar o conteudo da Pagina  -->
+	<ui:define name="content">
+		
+		<p:growl id="messages" showDetail="true"/>
+		
+		<p:panel id="cadastroVelocidade" header="#{msg.velocidadeMenu}" toggleOrientation="horizontal" widgetVar="panel"  styleClass="panel" closable="true" closeSpeed="500">
+ 			
+ 			<p:ajax event="close" oncomplete="$('#content').remove()"/>    
+	
+			<h:form id="velocidadeForm">
+				<h:panelGrid id="velocidadePanel" columns="4" cellpadding="5">
+					<h:outputLabel id="nomeVelocidadeLabel" styleClass="label" for="nomeVelocidadeField" value="#{msg.nome}:" />
+					<p:inputText id="nomeVelocidadeField" styleClass="field" value="#{velocidadeManagedBean.velocidade.nome}" maxlength="80" required="true" requiredMessage="#{msg.nomeRequerido}" />
+					
+					<h:outputLabel value="#{msg.tipoDocumental}" />
+					<p:selectOneMenu value="#{velocidadeManagedBean.velocidade.tipoDocumental}" effect="fade" filter="true" filterMatchMode="startsWith">
+						<f:selectItems value="#{velocidadeManagedBean.tiposDoc}" var="td" itemLabel="#{td.sigla} - #{td.nome}" itemValue="#{td}" />
+					</p:selectOneMenu>
+							
+				</h:panelGrid>
+				
+				<p:commandButton type="submit"	value="#{msg.buttonSave}" action="#{velocidadeManagedBean.salvarVelocidade}" update=":velocidadeForm:velocidadePanel :velocidadeForm:velocidadesCadastrada :messages"
+								 oncomplete="velocidadeTable.filter();"/>
+				<p:button value="#{msg.buttonLimpar}"  actionListener="#{velocidadeManagedBean.limparVelocidade}" />
+				
+				<p:dataTable id="velocidadesCadastrada" 
+	        		 		selection="#{velocidadeManagedBean.velocidadeSelecionada}" 
+	        		 		selectionMode="single"
+   				            var="velocidade" 
+   				          value="#{velocidadeManagedBean.velocidades}"  
+                      paginator="true" 
+                           rows="10"
+                           rowKey="#{velocidade.id}"  
+                           widgetVar="velocidadeTable" 
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="5,10,15" 
+                 filteredValue="#{velocidadeManagedBean.velocidadeFiltrada}"
+                 emptyMessage="#{msg.listaVaziaVelocidade}"
+                 editable="true">
+                 		
+           		 		 <p:ajax event="rowEdit" listener="#{velocidadeManagedBean.onEdit}" update=":messages :velocidadeForm:velocidadesCadastrada" oncomplete="velocidadeTable.filter();"/>
+                            <p:ajax event="rowEditCancel" listener="#{velociadeManagedBean.onCancel}" update=":messages :velocidadeForm:velocidadesCadastrada"  />
+                 
+						 <p:column  headerText="#{msg.nome}"  sortBy="#{velocidade.nome}" filterBy="#{velocidade.nome}" filterMatchMode="contains">  
+			                 <p:cellEditor>  
+				                   <f:facet name="output"><h:outputText value="#{velocidade.nome}" style="width:100%"/></f:facet>  
+				                   <f:facet name="input"><p:inputText id="modelInput" value="#{velocidade.nome}" style="width:96%"/></f:facet>  
+				             </p:cellEditor>  
+		            	 </p:column>
+		            	 <p:column headerText="#{msg.tipoDocumental}" sortBy="#{velocidade.tipoDocumental.nome}" filterBy="#{velocidade.tipoDocumental.nome}" filterMatchMode="startsWith">    
+		           			<p:cellEditor>  
+			           			<f:facet name="output"><h:outputText value="#{velocidade.tipoDocumental.nome}" style="width:100%" /></f:facet> 
+			           			<f:facet name="input">  
+				                    <h:selectOneMenu value="#{velocidade.tipoDocumental}" style="width:100%">  
+				                        <f:selectItems value="#{velocidadeManagedBean.tiposDoc}" var="td" itemLabel="#{td.nome}" itemValue="#{td}"  />  
+				                    </h:selectOneMenu>  
+				                </f:facet>  
+				             </p:cellEditor>
+		           		 </p:column>
+       		 			 <p:column headerText="" style="width:4%">
+							<p:commandButton value="#{msg.excluir}"  action="#{velocidadeManagedBean.excluiElementoVelocidade}" update=":velocidadeForm:velocidadesCadastrada :messages" 
+											 immediate="true" oncomplete="velocidadeTable.filter();">
+									<f:setPropertyActionListener value="#{velocidade}" target="#{velocidadeManagedBean.velocidadeSelecionada}" />
+							</p:commandButton>
+						</p:column>
+						
+						 <p:column style="width:2%">
+							<f:facet name="header">  
+			                	<h:outputText value="#{msg.editar}" />  
+			           		</f:facet> 
+							<p:rowEditor />
+						</p:column>
+				    </p:dataTable> 
+			</h:form>
+		</p:panel>		
+	</ui:define>
+</ui:composition>

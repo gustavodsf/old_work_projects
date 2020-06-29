@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+    <body>
+	    <ui:composition>
+			<f:view>
+	    	<h:form>
+				 <p:menubar>  
+				 	
+				 	<p:submenu action="/pages/home.xhtml" styleClass="miniLogo" style="width: 30px;" />
+				 	
+				 	<p:submenu label="#{msg.administrativoMenu}"> 
+	        			<p:menuitem action="/pages/cadastroUsuario.xhtml" value="#{msg.cadastrarUsuarioMenu}" ajax="false" />
+			        </p:submenu>
+			        
+			        <p:submenu label="#{msg.relatoriosMenu}">
+			        	
+			        </p:submenu>
+			        
+			        <p:submenu label="#{msg.listaMenu}">
+			        	<p:menuitem action="/pages/funcao.xhtml"             value="#{msg.funcaoMenu}"  ajax="false"  />
+			        	<p:menuitem action="/pages/idioma.xhtml"     		 value="#{msg.idiomaMenu}"  ajax="false"   />
+	        			<p:menuitem action="/pages/locais.xhtml"             value="#{msg.locaisMenu}"  ajax="false"   />
+	        			<p:menuitem action="/pages/suporte.xhtml"            value="#{msg.suporteMenu}"  ajax="false"  />
+	        			<p:menuitem action="/pages/objeto.xhtml"     		 value="#{msg.objetoMenu}"   ajax="false"  />
+	        			<p:menuitem action="/pages/psap.xhtml"               value="#{msg.PSAPMenu}"     ajax="false"  />
+	        			<p:menuitem action="/pages/tecnica.xhtml"            value="#{msg.tecnicaMenu}"  ajax="false"  />
+	        			<p:menuitem action="/pages/tipoDoc.xhtml"            value="#{msg.tipoDocMenu}"   ajax="false" />
+	        			<p:menuitem action="/pages/velocidade.xhtml"         value="#{msg.velocidadeMenu}" ajax="false" />
+			        </p:submenu> 
+			        
+			         <p:submenu label="#{msg.colecaoMenu}" >
+			        	<p:menuitem action="/pages/colecao.xhtml"  value="#{msg.colecaoMenu}"  ajax="false" /> 
+			         </p:submenu>
+			        			      
+			     </p:menubar>
+		    </h:form>
+		  </f:view>   
+	    </ui:composition>
+    </body>
+</html>

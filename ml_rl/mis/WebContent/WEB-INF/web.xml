@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	
+   <!--  							 				-->
+   <!--  Configurações para o JAAS		 			-->
+   <!--   							 				-->
+	
+	<!-- A seção fica aberta por 30 minutes --> 
+	<session-config> 
+      <session-timeout>30</session-timeout>   
+    </session-config> 
+		
+	<!--  Admin user allowed URL's -->	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Protected Pages</web-resource-name>
+			<url-pattern>/pages/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+      <auth-constraint>
+         <role-name>ADMINISTRADOR</role-name>
+         <role-name>FUNCIONARIO</role-name>
+         <role-name>GERENTE</role-name>
+      </auth-constraint>
+     
+      <user-data-constraint>
+         <transport-guarantee>NONE</transport-guarantee>
+      </user-data-constraint>
+	</security-constraint>	
+	<!--  End Admin user allowed URL's -->	
+	
+   <security-role>
+      <description>Authorized to access everything.</description>
+      <role-name>AdminUser</role-name>
+   </security-role>
+   <security-role>
+      <description>Authorized to limited access.</description>
+      <role-name>RegularUser</role-name>
+   </security-role>	
+   <login-config>
+      <auth-method>FORM</auth-method>
+      <form-login-config>
+         <form-login-page>/login.xhtml</form-login-page>
+         <form-error-page>/loginFail.xhtml</form-error-page>
+      </form-login-config>
+   </login-config>
+   
+    <!-- Allowed Roles -->
+    <security-role>
+        <role-name>ADMINISTRADOR</role-name>
+    </security-role>
+    <security-role>
+        <role-name>FUNCIONARIO</role-name>
+    </security-role>
+    <security-role>
+        <role-name>GERENTE</role-name>
+    </security-role>
+    <security-role>
+        <role-name>PESQUISAOR</role-name>
+    </security-role>
+    <security-role>
+        <role-name>PUBLICO</role-name>
+    </security-role>
+
+   <!--  							 				-->
+   <!--  Parametro do Contexto 		 				-->
+   <!--   							 				-->
+  <context-param>
+    <param-name>javax.faces.PROJECT_STAGE</param-name>
+    <param-value>Production</param-value>
+  </context-param>
+  <context-param>  
+    <param-name>primefaces.THEME</param-name>  
+   	 <param-value>delta</param-value>  
+  </context-param>
+  <!--  							 				-->
+  <!--  Configurações do JSF 		 				-->
+  <!--   							 				-->
+  
+  <display-name>mis</display-name>
+
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.xhtml</url-pattern>
+  </servlet-mapping>
+  <error-page>
+	<error-code>403</error-code>
+	<location>/access_denied.xhtml</location>
+  </error-page>  
+</web-app>

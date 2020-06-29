@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+    <body>
+	    <ui:composition>
+	    	<f:view>
+		    	<h:form>
+					<p:dock>
+						 <p:menuitem url="/pages/home.xhtml" value="#{msg.homeMenu}" icon="/resources/images/dock/home.png" />
+						 <p:menuitem url="#" value="#{msg.buscarMenu}" icon="/resources/images/dock/search.png" />
+						 <p:menuitem value="#{msg.sairMenu}"  action="#{authenticator.logOut}" icon="/resources/images/dock/logout.png" ajax="false"/>
+					</p:dock>
+					
+					<p:stack icon="/resources/images/stack/stack.png"> 
+						<p:menuitem url="#" value="#{msg.cadastrarItemMenu}" icon="/resources/images/dock/add-item.png" />
+						<p:menuitem url="/pages/colecao.xhtml" value="#{msg.colecaoMenu}" icon="/resources/images/dock/add-colecao.png" />
+						<p:menuitem url="/pages/cadastroUsuario.xhtml" value="#{msg.cadastrarUsuarioMenu}" icon="/resources/images/dock/add-usuario.png" />
+					</p:stack>
+				</h:form>
+			</f:view>
+	    </ui:composition>
+    </body>
+</html>

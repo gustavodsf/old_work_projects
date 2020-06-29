@@ -1,0 +1,87 @@
+<ui:composition template="/pages/template/common/commonLayout.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+					xmlns:p="http://primefaces.org/ui">
+					
+	<!--  Area para colocar o CSS da Pagina  -->
+	<ui:define name="css">
+	
+	</ui:define>			
+	<!--  Area para colocar o conteudo da Pagina  -->
+	<ui:define name="content">
+		<p:growl id="messages" showDetail="true"/>
+		
+		<p:panel id="cadastroSuporte" header="#{msg.suporteMenu}" toggleOrientation="horizontal" widgetVar="panel"  styleClass="panel" closable="true" closeSpeed="500">
+ 			
+ 				<p:ajax event="close" oncomplete="$('#content').remove()"/>     
+			    
+				<h:form id="suporteForm">
+					<h:panelGrid id="suportePanel" columns="4" cellpadding="5">
+						<h:outputLabel id="nomeSuporteLabel" styleClass="label" for="nomeSuporteField" value="#{msg.nome}:" />
+						<p:inputText id="nomeSuporteField" styleClass="field" value="#{suporteManagedBean.suporte.nome}" maxlength="80" required="true" requiredMessage="#{msg.nomeRequerido}" />
+						
+						<h:outputLabel value="#{msg.tipoDocumental}" />
+						<p:selectOneMenu value="#{suporteManagedBean.suporte.tipoDocumental}" effect="fade" filter="true" filterMatchMode="startsWith">
+							<f:selectItems value="#{suporteManagedBean.tiposDoc}" var="td" itemLabel="#{td.nome}" itemValue="#{td}" />
+						</p:selectOneMenu>
+						
+					</h:panelGrid>
+					<p:commandButton type="submit"	value="#{msg.buttonSave}" action="#{suporteManagedBean.salvarSuporte}" update=":suporteForm:suportePanel :suporteForm:suportesCadastrado :messages"
+									 oncomplete="suporteTable.filter();"/>
+					<p:button value="#{msg.buttonLimpar}"  actionListener="#{suporteManagedBean.limparSuporte}" />
+					
+	        		 <p:dataTable id="suportesCadastrado" 
+	        		 		selection="#{suporteManagedBean.suporteSelecionado}" 
+	        		 		selectionMode="single"
+   				            var="suporte" 
+   				          value="#{suporteManagedBean.suportes}"  
+                      paginator="true" 
+                           rows="10"
+                           rowKey="#{suporte.id}"  
+                           widgetVar="suporteTable" 
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="5,10,15" 
+                 filteredValue="#{suporteManagedBean.suporteFiltrado}"
+                 emptyMessage="#{msg.listaVaziaSuporte}"
+                 editable="true">
+                 		
+           		 		 <p:ajax event="rowEdit" listener="#{suporteManagedBean.onEdit}" update=":messages :suporteForm:suportesCadastrado" oncomplete="suporteTable.filter();"/>
+                            <p:ajax event="rowEditCancel" listener="#{suporteManagedBean.onCancel}" update=":messages :suporteForm:suportesCadastrado"  />
+                 
+						 <p:column  headerText="#{msg.nome}"  sortBy="#{suporte.nome}" filterBy="#{suporte.nome}" filterMatchMode="contains">  
+			                 <p:cellEditor>  
+				                   <f:facet name="output"><h:outputText value="#{suporte.nome}" style="width:100%"/></f:facet>  
+				                   <f:facet name="input"><p:inputText id="modelInput" value="#{suporte.nome}" style="width:96%"/></f:facet>  
+				             </p:cellEditor>  
+		            	 </p:column>
+		            	 <p:column headerText="#{msg.tipoDocumental}" sortBy="#{suporte.tipoDocumental.nome}" filterBy="#{suporte.tipoDocumental.nome}" filterMatchMode="startsWith">    
+		           			<p:cellEditor>  
+			           			<f:facet name="output"><h:outputText value="#{suporte.tipoDocumental.nome}" style="width:100%" /></f:facet> 
+			           			<f:facet name="input">  
+				                    <h:selectOneMenu value="#{suporte.tipoDocumental}" style="width:100%">  
+				                        <f:selectItems value="#{suporteManagedBean.tiposDoc}" var="td" itemLabel="#{td.nome}" itemValue="#{td}"  />  
+				                    </h:selectOneMenu>  
+				                </f:facet>  
+				             </p:cellEditor>
+		           		 </p:column>
+       		 			 <p:column headerText="" style="width:4%">
+							<p:commandButton value="#{msg.excluir}"  action="#{suporteManagedBean.excluiElementoSuporte}" update=":suporteForm:suportesCadastrado :messages" 
+											 immediate="true" oncomplete="suporteTable.filter();">
+									<f:setPropertyActionListener value="#{suporte}" target="#{suporteManagedBean.suporteSelecionado}" />
+							</p:commandButton>
+						</p:column>
+						
+						 <p:column style="width:2%">
+							<f:facet name="header">  
+			                	<h:outputText value="#{msg.editar}" />  
+			           		</f:facet> 
+							<p:rowEditor />
+						</p:column>
+				    </p:dataTable> 
+					
+				</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

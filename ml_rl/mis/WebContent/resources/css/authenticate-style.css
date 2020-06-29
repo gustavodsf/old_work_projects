@@ -1,0 +1,92 @@
+/*body {
+     background: url("http://admin.myvirtualpaper.com/images/bg_noisy.png") repeat scroll 0px 0px #632229;
+}
+
+
+body {
+    background: url("https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-prn2/972074_651206928223974_473457837_n.jpg") repeat scroll 0px 0px #632229;
+	margin: 0;
+}
+
+h1, h2 {
+    color: #632229;
+}
+
+.label {
+     font: 12px verdana;
+     color: #794046;
+}
+
+.field {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.ui-inputfield {
+	padding: 0 !important;
+	margin-top: 5px !important;
+	margin-bottom: 0 !important;
+	box-shadow: none;
+}
+
+a, a:active, a:visited {
+    color: #B30000;
+}
+
+#header, #menu, #footer {
+     display: none;
+}
+
+#content-wrapper {
+    background: none repeat scroll 0 0 rgba(156, 54, 65, 0.7);
+    border-bottom: 2px solid #999999;
+    border-top: 2px solid #999999;
+    -moz-box-shadow: 0 0 73px 8px #501B21 inset, 0 0 10px 0 black inset, 0 1px 6px 4px rgba(0, 0, 0, 0.07) inset, 0 3px 30px 11px grey;
+    -webkit-box-shadow: 0 0 73px 8px #501B21 inset, 0 0 10px 0 black inset, 0 1px 6px 4px rgba(0, 0, 0, 0.07) inset, 0 3px 30px 11px grey;
+    box-shadow: 0 0 73px 8px #501B21 inset, 0 0 10px 0 black inset, 0 1px 6px 4px rgba(0, 0, 0, 0.07) inset, 0 3px 30px 11px grey;
+    height: 400px;
+    margin-top: 5%;
+}
+
+#content{
+    background: none repeat scroll 0 0 #F3F3F3;
+    border-radius: 8px 8px 8px 8px;
+    -moz-box-shadow: 0 1px 6px 4px rgba(0, 0, 0, 0.07) inset, 0 0 0 5px #794046, 0 5px 3px 3px #632229;
+    -webkit-box-shadow: 0 1px 6px 4px rgba(0, 0, 0, 0.07) inset, 0 0 0 5px #794046, 0 5px 3px 3px #632229;
+    box-shadow: 0 1px 6px 4px rgba(0, 0, 0, 0.07) inset, 0 0 0 5px #794046, 0 5px 3px 3px #632229;
+    float: none;
+    height: auto;
+    margin: 75px auto 0;
+    opacity: 1;
+    padding: 25px;
+    width: 240px;
+}
+
+.loginTitle {
+    color: #632229;
+	margin: 0 0 20px;
+	font: 25px verdana;
+    text-align: center;
+    display: block;
+}
+
+.loginButton {
+    margin: 20px 0 0 170px;
+    background-image: -moz-linear-gradient(center top , #C65965, #9C3641);
+    border: 1px solid #9C3641;
+    border-radius: 4px 4px 4px 4px;
+    color: white;
+    padding: 3px 8px;
+}
+
+.erro{
+	color: red;
+}
+
+*/
+
+#header, #footer {
+	visibility: hidden;
+}
+
+

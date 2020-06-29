@@ -1,0 +1,72 @@
+<ui:composition template="/pages/template/common/commonLayout.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+			 	xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+				
+	<!--  Area para colocar o CSS da Pagina  -->
+	<ui:define name="css">
+	
+	</ui:define>			
+	<!--  Area para colocar o conteudo da Pagina  -->			
+	<ui:define name="content">
+		<p:growl id="messages" showDetail="true"/>
+			<p:panel id="cadastroIdioma" header="#{msg.idiomaHeader}" toggleOrientation="horizontal" widgetVar="panel" styleClass="panel" closable="true" closeSpeed="500">
+ 			
+ 				<p:ajax event="close" oncomplete="$('#content').remove()"/>  
+				<h:form id="idiomaForm">	
+					<h:panelGrid id="idiomaPanel" columns="2" cellpadding="5">
+	    				<h:outputLabel id="nomeIdiomaLabel" styleClass="label" for="nomeIdiomaField" value="#{msg.nome}:" />
+						<p:inputText   id="nomeIdiomaField" styleClass="field" value="#{idiomaManagedBean.idioma.nome}" maxlength="80" required="true" 
+										   requiredMessage="#{msg.nomeRequerido}" validator="#{idiomaValidator.validaNome}" />
+					</h:panelGrid>
+						
+					<p:commandButton type="submit"	value="#{msg.buttonSave}" action="#{idiomaManagedBean.salvarIdioma}" update=":idiomaForm:idiomaPanel :idiomaForm:idiomasCadastrado :messages"
+										 oncomplete="idiomaTable.filter();"/>
+					    
+				    <p:button value="#{msg.buttonLimpar}"  actionListener="#{idiomaManagedBean.limparIdioma}" />
+						
+	        		<p:dataTable id="idiomasCadastrado" 
+		        		 		selection="#{idiomaManagedBean.idiomaSelecionado}" 
+		        		 		selectionMode="single"
+	   				            var="idioma" 
+	   				          value="#{idiomaManagedBean.idiomas}"  
+	                      paginator="true" 
+	                           rows="10"
+	                           rowKey="#{idioma.id}"  
+	                           widgetVar="idiomaTable" 
+	                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+	                 rowsPerPageTemplate="5,10,15" 
+	                 filteredValue="#{idiomaManagedBean.idiomaFiltrado}"
+	                 emptyMessage="#{msg.listaVaziaIdioma}"
+	                 editable="true">
+	                 		
+           		 		 <p:ajax event="rowEdit" listener="#{idiomaManagedBean.onEdit}" update=":messages :idiomaForm:idiomasCadastrado" oncomplete="idiomaTable.filter();"/>
+                            <p:ajax event="rowEditCancel" listener="#{idiomaManagedBean.onCancel}" update=":messages :idiomaForm:idiomasCadastrado"  />
+                 
+						 <p:column  headerText="#{msg.nome}"  sortBy="#{idioma.nome}" filterBy="#{idioma.nome}" filterMatchMode="contains">  
+			                 <p:cellEditor>  
+				                   <f:facet name="output"><h:outputText value="#{idioma.nome}" style="width:100%"/></f:facet>  
+				                   <f:facet name="input"><p:inputText id="modelInput" value="#{idioma.nome}" style="width:96%"/></f:facet>  
+				             </p:cellEditor>  
+		            	 </p:column>
+		          
+       		 			 <p:column headerText="" style="width:4%">
+							<p:commandButton value="#{msg.excluir}"  action="#{idiomaManagedBean.excluiElementoIdioma}" update=":idiomaForm:idiomasCadastrado :messages" 
+											 immediate="true" oncomplete="idiomaTable.filter();">
+									<f:setPropertyActionListener value="#{idioma}" target="#{idiomaManagedBean.idiomaSelecionado}" />
+							</p:commandButton>
+						</p:column>
+						
+						 <p:column style="width:2%">
+							<f:facet name="header">  
+			                	<h:outputText value="#{msg.editar}" />  
+			           		</f:facet> 
+							<p:rowEditor />
+						</p:column>
+			    </p:dataTable>
+			</h:form>					
+		</p:panel>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,30 @@
+## Projeto MIS
+## Criado em 01/08/2013
+##
+##
+
+#
+# Nome do Arquivo DS 
+#
+ds.name=mis
+
+#
+# Nome do driver do postegres
+#
+postgres.name.driver=postgresql-9.1-903.jdbc4.jar
+
+#
+# IVY
+#
+maven.settings.offline=true
+project.build.finalName=arquillian-showcase-cdi-1.0.0-SNAPSHOT
+version.arquillian=1.1.1.Final
+version.cdi_spec=1.1-20130403
+version.glassfish=3.1
+version.hamcrest=1.2
+version.jboss_javaee6_spec=3.0.2.Final
+version.jbossas_6=6.1.0.Final
+version.junit=4.8.1
+version.log4j=1.2.14
+version.slf4j=1.5.10
+version.weld_core=1.1.1.Final

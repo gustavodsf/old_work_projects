@@ -1,0 +1,98 @@
+<ui:composition template="/pages/template/common/commonLayout.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+	<!--  Area para colocar o CSS da Pagina  -->
+	<ui:define name="css">
+	
+	</ui:define>			
+	<!--  Area para colocar o conteudo da Pagina  -->			
+	<ui:define name="content">
+		<p:growl id="messages" showDetail="true"/>
+		
+		<p:panel id="cadastroTipoDoc" header="#{msg.tipoDocMenu}" toggleOrientation="horizontal" widgetVar="panel"  styleClass="panel" closable="true" closeSpeed="500">
+ 			
+ 				<p:ajax event="close" oncomplete="$('#content').remove()"/>    
+	    		
+				<h:form id="tipoDocForm">
+					
+					<h:panelGrid id="tipoDocPanel" columns="4" cellpadding="5">  
+						<h:outputLabel id="nomeTipoDocLabel" styleClass="label" for="nomeTipoDocField" value="#{msg.nome}:" />
+						<p:inputText id="nomeTipoDocField" styleClass="field" value="#{tipoDocumentalManegedBean.tipoDoc.nome}" maxlength="80" required="true" requiredMessage="#{msg.nomeTipoDocumentoRequerido}" />
+						
+						<h:outputLabel id="siglaTipoDocLabel" styleClass="label" for="siglaTipoDocField" value="#{msg.sigla}" />
+						<p:inputText id="siglaTipoDocField" styleClass="field" style="text-transform: uppercase" value="#{tipoDocumentalManegedBean.tipoDoc.sigla}" required="true" maxlength="4" onkeyup="this.value= this.value.toUpperCase();" />
+						
+						<h:outputLabel id="setorLabel" styleClass="label" value="#{msg.setor}" />
+						<p:selectOneListbox value="#{tipoDocumentalManegedBean.tipoDoc.setor}" required="true" requiredMessage="#{msg.setorTipoDocumentoRequerido}">
+							<f:selectItems value="#{tipoDocumentalManegedBean.setores}" var="setor" itemLabel="#{setor.nomeExibido}" itemValue="#{setor}" />
+						</p:selectOneListbox>
+						
+					</h:panelGrid>
+				
+					<p:commandButton type="submit"	value="#{msg.buttonSave}" action="#{tipoDocumentalManegedBean.salvarTipoDoc}" update=":tipoDocForm:tipoDocPanel :tipoDocForm:tiposDocCadastrado :messages"
+										 oncomplete="tipoDocTable.filter();"/>
+					<p:button value="#{msg.buttonLimpar}"  actionListener="#{tipoDocumentalManegedBean.limparTipoDoc}" />
+					
+	        		<p:dataTable id="tiposDocCadastrado" 
+	        		 		selection="#{tipoDocumentalManegedBean.tipoDocSelecionado}" 
+	        		 		selectionMode="single"
+   				            var="tipoDoc" 
+   				          value="#{tipoDocumentalManegedBean.tiposDoc}"  
+                      paginator="true" 
+                           rows="10"
+                           rowKey="#{tipoDoc.id}"  
+                           widgetVar="tipoDocTable" 
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="5,10,15" 
+                 filteredValue="#{tipoDocumentalManegedBean.tipoDocFiltrado}"
+                 emptyMessage="#{msg.listaVaziaTipoDoc}"
+                 editable="true">
+                 		
+           		 		 <p:ajax event="rowEdit" listener="#{tipoDocumentalManegedBean.onEdit}" update=":messages :tipoDocForm:tiposDocCadastrado" oncomplete="tipoDocTable.filter();"/>
+                            <p:ajax event="rowEditCancel" listener="#{tipoDocumentalManegedBean.onCancel}" update=":messages :tipoDocForm:tiposDocCadastrado"  />
+                 
+						 <p:column  headerText="#{msg.nome}"  sortBy="#{tipoDoc.nome}" filterBy="#{tipoDoc.nome}" filterMatchMode="contains">  
+			                 <p:cellEditor>  
+				                   <f:facet name="output"><h:outputText value="#{tipoDoc.nome}" style="width:100%"/></f:facet>  
+				                   <f:facet name="input"><p:inputText id="nomeInput" value="#{tipoDoc.nome}" style="width:96%"/></f:facet>  
+				             </p:cellEditor>  
+		            	 </p:column>
+		            	 
+		            	 <p:column  headerText="#{msg.sigla}"  sortBy="#{tipoDoc.sigla}" filterBy="#{tipoDoc.sigla}" filterMatchMode="contains">  
+			                 <p:cellEditor>  
+				                   <f:facet name="output"><h:outputText value="#{tipoDoc.sigla}" style="width:100%"/></f:facet>  
+				                   <f:facet name="input"><p:inputText id="siglaInput" value="#{tipoDoc.sigla}" style="width:96%"/></f:facet>  
+				             </p:cellEditor>  
+		            	 </p:column>
+		            	 
+		            	 <p:column headerText="#{msg.setor}" sortBy="#{tipoDoc.setor.nomeExibido}" filterBy="#{tipoDoc.setor.nomeExibido}" filterMatchMode="startsWith">    
+		           			<p:cellEditor>  
+			           			<f:facet name="output"><h:outputText value="#{tipoDoc.setor.nomeExibido}" style="width:100%" /></f:facet> 
+			           			<f:facet name="input">  
+				                    <h:selectOneMenu value="#{tipoDoc.setor}" style="width:100%">  
+				                       <f:selectItems value="#{tipoDocumentalManegedBean.setores}" var="setor" itemLabel="#{setor.nomeExibido}" itemValue="#{setor}" />  
+				                    </h:selectOneMenu>  
+				                </f:facet>  
+				             </p:cellEditor>
+		           		 </p:column>
+       		 			 <p:column headerText="" style="width:4%">
+							<p:commandButton value="#{msg.excluir}"  action="#{tipoDocumentalManagedBean.excluiElementoTipoDoc}" update=":tipoDocForm:tiposDocCadastrado :messages" 
+											 immediate="true" oncomplete="tipoDocTable.filter();">
+									<f:setPropertyActionListener value="#{tipoDoc}" target="#{tipoDocManagedBean.tipoDocSelecionado}" />
+							</p:commandButton>
+						</p:column>
+						
+						 <p:column style="width:2%">
+							<f:facet name="header">  
+			                	<h:outputText value="#{msg.editar}" />  
+			           		</f:facet> 
+							<p:rowEditor />
+						</p:column>
+				    </p:dataTable> 	
+				</h:form>
+			</p:panel>		
+	</ui:define>
+</ui:composition>

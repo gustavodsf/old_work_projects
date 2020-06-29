@@ -1,0 +1,156 @@
+#Campos
+sigla=Sigla
+tipoDocumental=Tipo Documental
+selecioneSetor=Selecione um setor
+nome=Nome
+formaAquisicao=Forma de Aquisição
+procedencia=Procedência
+dataAquisicao=Data Aquisição
+confirmado=Confirmado
+email=E-mail
+senha=Senha
+cep=CEP
+dataNascimento=Data de Nascimento
+endereco=Endereço
+escolaridade=Escolaridade
+confirmacaoSenha=Confirmação da senha
+instituicao=Instituição
+municipio=Município
+nomeCompleto=Nome
+pais=País
+profissao=Profissão
+uf=Estado
+serie=Série
+cargo=Cargo
+sim=Sim
+nao=Não
+ler=Ler
+escrever=Escrever
+excluir=Excluir
+editar=Editar
+tipo=Tipo
+album=Álbum
+conjunto=Conjunto
+programa=Programa 
+projeto=Projeto
+home=Home
+
+#MIS
+nomeMIS=Fundação Museu da Imagem e do Som
+
+#Buttons
+buttonSave=Salvar
+buttonLogar=Entrar
+buttonExcluir=Excluir
+buttonEditar=Editar
+buttonLimpar=Limpar
+buttonSair=Sair
+
+#Login
+loginTitle=Log In
+erroLogin=Usuário ou Senha inválido.
+acessoNegado=Acesso Negado.
+
+#Message Sucesso
+SUCESSO=Sucesso
+edicaoCancelada=Edição cancelada com sucesso
+colecaoCadastrada=Coleção cadastrado com sucesso.
+colecaoExluida= Coleção excluída com sucesso
+colecaoAlterada= Coleção alterada com sucesso
+tipoDocCadastrado=Tipo documental alterado com sucesso
+tipDocExcluida=Tipo documental excluído com sucesso
+usuarioCadastrado=Usuário Cadastrado com Sucesso
+localCadastrado=Local cadastrado com suecesso
+localExcluido=Local excluído com sucesso
+localEditado=Local alterado com sucesso
+idiomaCadastrado=Idioma cadastrado com sucesso
+idiomaExcluido=Idioma excluído com sucesso
+idiomaEditado=Idioma alterado com sucesso
+funcaoCadastrado=Função cadastrada com sucesso
+funcaoExcluida=Função excluída com sucesso
+funcaoEditada=Função alterada com sucesso
+velocidadeCadastrada=A velocidade foi cadastrada
+velocidadeEditada=  Técnica alterado com sucesso
+velocidadeExcluida= Técnica excluído com sucesso
+suporteCadastrado=O suporte foi cadastrado
+suporteEditado= Suporte alterado com sucesso
+suporteExcluido=Suporte excluído com sucesso
+tecnicaCadastrada=Técnica cadastrada com sucesso
+tecnicaEditada=Técnica alterada com sucesso
+tecnicaExcluida=Técnica excluída com sucesso
+objetoCadastrado=Objeto cadastrado com sucesso
+psapCadastrado=Programa/Série/Álbum/Projeto cadastrado com sucesso
+psapEditada=Programa/Série/Álbum/Projeto excluído com sucesso
+psapExcluida=Programa/Série/Álbum/Projeto alterado com sucesso
+objetoEditado=Objeto editado com sucesso.
+
+#Message Erro
+ERRO=Erro
+siglaCadastrada=Sigla já cadastrada
+nomeColecaoRequerido=Necessário o preenchimendo do nome da coleção
+siglaColecaoRequerida=Necessário o preenchimento da sigla da coleção
+emailUsuarioRequerido=Necessário o preenchimento do e-mail
+senhaUsuarioRequerido=Necessário o preenchimento da senha
+tipoRequerido=Necessário o preenchimento do tipo
+senhaConfirmacaoUsuarioRequerido=Necessário o preenchimento da confirmação da senha
+cargoRequerido=Necessário o preenchimento do campo cargo
+nomeTipoDocumentoRequerido=Necessário o preenchimento do campo Nome
+setorTipoDocumentoRequerido=Necessário o prenchimento do campo Setor
+nomeRequerido=Necessário o preenchimendo do campo Nome
+emailErroValidator=Formato do e-mail inválido
+nomeExistente=O nome usado já foi cadastrado
+senhaDeveConferir=A senha e a confirmação da senha devem ser iguais
+emailJaCadastrado=Email já cadastrado para outro usuário
+emailInvalido=Email inválido
+valorInalterado=O Valor não foi alterado
+dataInvalida=Problema ao converter a data
+listaVaziaColecao= Nenhuma coleção foi encontrada para este critério
+listaVaziaSuporte= Nenhum  suporte foi encontrado para este critério
+listaVaziaTecnica= Nenhuma técnica foi encontrado para este critério
+listaVaziaVelocidade= Nenhuma velocidade foi encontrado para este critério
+listaVaziaPSAP= Nenhuma Programa/Série/Álbum/Projeto foi encontrado para este critério
+listaVaziaTipoDoc=Nenhum Tipo Documental foi encontrado para este critério
+listaVaziaIdioma=Nenhum Idioma foi encontrado para este critério
+listaVaziaFuncao=Nenhuma Função foi encontrada para este critério
+listaVaziaLocal= Nenhum Local foi encontrada para este critério
+
+
+#header
+colecaoHeader=Coleção
+colecoesHeader=Coleções
+idiomaHeader=Idioma
+idiomasHeader=Idiomas
+funcaoHeader=Função
+excluirHeader=Excluir
+editarHeader=Editar
+funcoesHeader=Funções
+objetoHeader=Objeto
+
+#menu
+audioVisualMenu=Audiovisual
+bibliotecaMenu=Biblioteca
+iconograficoMenu=Iconográfico
+partituraMenu=Partitura
+sonoroMenu=Sonoro
+textualMenu=Textual
+tridimensionalMenu=Tridimensional
+administrativoMenu=Administrativo
+relatoriosMenu=Relatórios
+colecaoMenu=Coleção
+setor=Setor
+cadastrarUsuarioMenu=Cadastrar Usuário
+sairMenu=Sair
+adicionarMenu=Adicionar
+homeMenu=Principal
+listaMenu=Listas
+idiomaMenu=Idioma
+locaisMenu=Locais
+tipoDocMenu=Tipo Documental
+funcaoMenu=Função
+velocidadeMenu=Velocidade
+suporteMenu=Suporte
+objetoMenu=Objeto
+tecnicaMenu=Técnica
+PSAPMenu=Programa/Série/Álbum/Projeto
+buscarMenu=Busca
+cadastrarItemMenu=Cadastrar Item

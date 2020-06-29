@@ -1,0 +1,96 @@
+<ui:composition template="/pages/template/common/commonLayout.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+	<!--  Area para colocar o CSS da Pagina  -->
+	<ui:define name="css">
+    	<h:outputStylesheet name="colecao-style.css" library="css" />
+	</ui:define>			
+	<!--  Area para colocar o conteudo da Pagina  -->
+	<ui:define name="content">
+  		
+		<p:growl id="messages" showDetail="true"/>
+  			
+ 			<p:panel id="colecao" header="#{msg.colecaoHeader}" toggleOrientation="horizontal"  widgetVar="panel" styleClass="panel" closable="true" closeSpeed="500">
+ 			
+ 				<p:ajax event="close" oncomplete="$('#content').remove()"/>  
+ 				
+ 				<h:form id="colecaoForm">
+  					<h:panelGrid  id="colecaoPanel" columns="4" cellpadding="3">  
+  						<h:outputLabel id="nomeColecaoLabel" styleClass="label" for="nomeColecaoField"  value="#{msg.nome}:" />
+       					<p:inputText   id="nomeColecaoField" styleClass="field" value="#{colecaoManagedBean.colecao.nome}"  maxlength="45" required="true" requiredMessage="#{msg.nomeColecaoRequerido}"/>
+       			
+       					<h:outputLabel id="siglaColecaoLabel" styleClass="label" for="siglaColecaoField"  value="#{msg.sigla}:" />
+       					<p:inputText   id="siglaColecaoField" styleClass="field" value="#{colecaoManagedBean.colecao.sigla}" maxlength="4" required="true" 
+       					           requiredMessage="#{msg.siglaColecaoRequerida}" onkeyup="this.value= this.value.toUpperCase();" />
+ 			
+						<h:outputLabel id="formaAquisicaoColecaoLabel" styleClass="label" for="formaAquisicaoColecaoField"  value="#{msg.formaAquisicao}:" />
+  						<p:inputText   id="formaAquisicaoColecaoField" styleClass="field" value="#{colecaoManagedBean.colecao.formaAquisicao}" maxlength="30" />
+  			
+  						<h:outputLabel id="dataAquisicaoColecaoLabel" styleClass="label" for="dataAquisicaoColecaoField"  value="#{msg.dataAquisicao}:" />
+  						<p:calendar id="dataAquisicaoColecaoField"  styleClass="field" pattern="dd/MM/yyyy"  value="#{colecaoManagedBean.dataAquisicao}" mode="popup" />
+  			
+						<h:outputLabel id="procedenciaColecaoLabel" styleClass="label" for="procedenciaColecaoField"  value="#{msg.procedencia}:" />
+  						<p:inputTextarea rows="6" cols="33"  id="procedenciaColecaoField"  value="#{colecaoManagedBean.colecao.procedencia}"/>  
+  		
+			   			<p:dialog header="Selected Dates" widgetVar="dialog"   
+			  	        showEffect="fade" hideEffect="fade">  
+			    
+					    	  <h:panelGrid id="display" columns="2" cellpadding="5">  
+						      	    <h:outputText value="Inline Date:" />  
+						          	<h:outputText value="#{calendarBean.date1}" id="inlineDate">  
+						              	<f:convertDateTime pattern="dd/M/yyyy"/>  
+						          	</h:outputText>  
+						            
+						          	<h:outputText value="Popup Date:" />  
+						          	<h:outputText value="#{calendarBean.date2}" id="popupDate">  
+						              	<f:convertDateTime pattern="dd/M/yyyy"/>  
+						          	</h:outputText>  
+						            
+						          	<h:outputText value="Popup Button Date: " />  
+						          	<h:outputText value="#{calendarBean.date3}" id="popupButtonDate">  
+						              	<f:convertDateTime pattern="dd/M/yyyy"/>  
+						         	</h:outputText>  
+						      </h:panelGrid>  
+			        
+			 	 		</p:dialog>  
+  		 		</h:panelGrid>
+					
+				<p:commandButton type="submit"	value="#{msg.buttonSave}" action="#{colecaoManagedBean.salvarColecao}" update=":colecaoForm:colecaoPanel :colecaoForm:colecoesCadastrada :messages" oncomplete="colecaoTable.filter();"/>
+				<p:button value="#{msg.buttonLimpar}"  actionListener="#{colecaoManagedBean.limparColecao}" />
+				<p:commandButton value="#{msg.buttonExcluir}" actionListener="#{colecaoManagedBean.excluiElementoColecao}" update=":colecaoForm:colecoesCadastrada :messages" />
+	
+	      		 <p:dataTable id="colecoesCadastrada" 
+	      		 		selection="#{colecaoManagedBean.colecaoSelecionada}" 
+	      		 		selectionMode="single"
+					            var="colecao" 
+					          value="#{colecaoManagedBean.colecoes}"  
+	                   paginator="true" 
+	                        rows="10"
+	                        rowKey="#{colecao.sigla}"  
+	                        widgetVar="colecaoTable" 
+	              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+	              rowsPerPageTemplate="5,10,15" 
+	              filteredValue="#{colecaoManagedBean.filteredColecao}"
+	              emptyMessage="#{msg.listaVaziaColecao}">
+	              
+		             <p:ajax event="rowSelect" update=":colecaoForm:colecaoPanel" listener="#{colecaoManagedBean.populaColcecaoPanel}" />
+		           
+					 <p:column  headerText="#{msg.nome}"  sortBy="#{colecao.nome}" filterBy="#{colecao.nome}" filterMatchMode="contains">  
+		           		#{colecao.nome}
+		           	 </p:column>
+		           	 
+		           	 <p:column headerText="#{msg.sigla}" sortBy="#{colecao.sigla}" filterBy="#{colecao.sigla}" filterMatchMode="startsWith">    
+	          			#{colecao.sigla}
+	          		 </p:column>
+	          		 
+	          		 <p:column headerText="#{msg.dataAquisicao}" sortBy="#{colecao.dataAquisicao}" filterBy="#{colecao.dataAquisicao}" filterMatchMode="startsWith">      
+	           			#{colecao.dataAquisicao}
+		       		 </p:column>  
+	    	   </p:dataTable> 
+			</h:form>
+		</p:panel>
+	</ui:define>
+ </ui:composition>

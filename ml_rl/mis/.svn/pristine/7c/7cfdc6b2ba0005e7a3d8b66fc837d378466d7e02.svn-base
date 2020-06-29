@@ -1,0 +1,85 @@
+<ui:composition template="/pages/template/common/commonLayout.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+				
+	<!--  Area para colocar o CSS da Pagina  -->
+	<ui:define name="css">
+	
+	</ui:define>			
+	<!--  Area para colocar o conteudo da Pagina  -->
+	<ui:define name="content">
+		
+		<p:growl id="messages" showDetail="true"/>
+		
+		<p:panel id="cadastroTecnica" header="#{msg.tecnicaMenu}" toggleOrientation="horizontal" widgetVar="panel"  styleClass="panel" closable="true" closeSpeed="500">
+ 			
+ 				<p:ajax event="close" oncomplete="$('#content').remove()"/>  
+				<h:form id="tecnicaForm">
+					<h:panelGrid id="tecnicaPanel" columns="4" cellpadding="5">
+						<h:outputLabel id="nomeTecnicaLabel" styleClass="label" for="nomeTecnicaField" value="#{msg.nome}:" />
+						<p:inputText id="nomeTecnicaField" styleClass="field" value="#{tecnicaManagedBean.tecnica.nome}" maxlength="80" required="true" requiredMessage="#{msg.nomeRequerido}" />
+						
+						<h:outputLabel value="#{msg.tipoDocumental}" />
+						<p:selectOneMenu value="#{tecnicaManagedBean.tecnica.tipoDocumental}" effect="fade" filter="true" filterMatchMode="startsWith">
+							<f:selectItems value="#{tecnicaManagedBean.tiposDoc}" var="td" itemLabel="#{td.sigla} - #{td.nome}" itemValue="#{td}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<p:commandButton type="submit"	value="#{msg.buttonSave}" action="#{tecnicaManagedBean.salvarTecnica}" update=":tecnicaForm:tecnicaPanel :tecnicaForm:tecnicasCadastrada :messages"
+									 oncomplete="tecnicaTable.filter();"/>
+					<p:button value="#{msg.buttonLimpar}"  actionListener="#{tecnicaManagedBean.limparTecnica}" />
+					
+	        		<p:dataTable id="tecnicasCadastrada" 
+	        		 		selection="#{tecnicaManagedBean.tecnicaSelecionada}" 
+	        		 		selectionMode="single"
+   				            var="tecnica" 
+   				          value="#{tecnicaManagedBean.tecnicas}"  
+                      paginator="true" 
+                           rows="10"
+                           rowKey="#{tecnica.id}"  
+                           widgetVar="tecnicaTable" 
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="5,10,15" 
+                 filteredValue="#{tecnicaManagedBean.tecnicaFiltrada}"
+                 emptyMessage="#{msg.listaVaziaTecnica}"
+                 editable="true">
+                 		
+           		 		 <p:ajax event="rowEdit" listener="#{tecnicaManagedBean.onEdit}" update=":messages :tecnicaForm:tecnicasCadastrada" oncomplete="tecnicaTable.filter();"/>
+                            <p:ajax event="rowEditCancel" listener="#{tecnicaManagedBean.onCancel}" update=":messages :tecnicaForm:tecnicasCadastrada"  />
+                 
+						 <p:column  headerText="#{msg.nome}"  sortBy="#{tecnica.nome}" filterBy="#{tecnica.nome}" filterMatchMode="contains">  
+			                 <p:cellEditor>  
+				                   <f:facet name="output"><h:outputText value="#{tecnica.nome}" style="width:100%"/></f:facet>  
+				                   <f:facet name="input"><p:inputText id="modelInput" value="#{tecnica.nome}" style="width:96%"/></f:facet>  
+				             </p:cellEditor>  
+		            	 </p:column>
+		            	 <p:column headerText="#{msg.tipoDocumental}" sortBy="#{tecnica.tipoDocumental.nome}" filterBy="#{tecnica.tipoDocumental.nome}" filterMatchMode="startsWith">    
+		           			<p:cellEditor>  
+			           			<f:facet name="output"><h:outputText value="#{tecnica.tipoDocumental.nome}" style="width:100%" /></f:facet> 
+			           			<f:facet name="input">  
+				                    <h:selectOneMenu value="#{tecnica.tipoDocumental}" style="width:100%">  
+				                        <f:selectItems value="#{tecnicaManagedBean.tiposDoc}" var="td" itemLabel="#{td.nome}" itemValue="#{td}"  />  
+				                    </h:selectOneMenu>  
+				                </f:facet>  
+				             </p:cellEditor>
+		           		 </p:column>
+       		 			 <p:column headerText="" style="width:4%">
+							<p:commandButton value="#{msg.excluir}"  action="#{tecnicaManagedBean.excluiElementoTecnica}" update=":tecnicaForm:tecnicasCadastrada :messages" 
+											 immediate="true" oncomplete="tecnicaTable.filter();">
+									<f:setPropertyActionListener value="#{tecnica}" target="#{tecnicaManagedBean.tecnicaSelecionada}" />
+							</p:commandButton>
+						</p:column>
+						
+						 <p:column style="width:2%">
+							<f:facet name="header">  
+			                	<h:outputText value="#{msg.editar}" />  
+			           		</f:facet> 
+							<p:rowEditor />
+						</p:column>
+				    </p:dataTable> 
+				</h:form>
+			</p:panel>	
+	</ui:define>
+</ui:composition>

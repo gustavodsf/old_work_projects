@@ -1,0 +1,86 @@
+
+<ui:composition template="/pages/template/common/commonLayout.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+				
+	<!--  Area para colocar o CSS da Pagina  -->
+	<ui:define name="css">
+	
+	</ui:define>			
+	<!--  Area para colocar o conteudo da Pagina  -->	
+	<ui:define name="content">
+		
+		<p:growl id="messages" showDetail="false" autoUpdate="true" sticky="true" />
+		<p:panel id="objeto" header="#{msg.objetoHeader}" toggleOrientation="horizontal" widgetVar="panel"  styleClass="panel" closable="true" closeSpeed="500">
+		
+ 			<p:ajax event="close" oncomplete="$('#content').remove()"/>    
+ 			
+			<h:form id="objetoForm">
+			
+					<h:panelGrid id="objetoPanel" columns="4" cellpadding="5">
+						<h:outputLabel id="nomeObjetoLabel" styleClass="label" for="nomeObjetoField" value="#{msg.nome}:" />
+						<p:inputText id="nomeObjetoField" styleClass="field" value="#{objetoManagedBean.objeto.nome}" maxlength="80"
+							required="true" requiredMessage="#{msg.nomeRequerido}" />
+
+						<h:outputLabel value="#{msg.tipoDocumental}" />
+						<p:selectOneMenu value="#{objetoManagedBean.objeto.tipoDocumental}" effect="fade" filter="true" filterMatchMode="startsWith">
+							<f:selectItems value="#{objetoManagedBean.tiposDoc}" var="td" itemLabel="#{td.sigla} - #{td.nome}" itemValue="#{td}" />
+						</p:selectOneMenu>
+						<p:commandButton value="#{msg.buttonSave}" type="submit" action="#{objetoManagedBean.salvarObjeto}" update=":objetoForm:objetosTable" />
+					</h:panelGrid>
+					
+					
+					<p:dataTable id="objetosTable" var="objeto"
+						value="#{objetoManagedBean.objetos}" paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15"
+						filteredValue="#{objetoManagedBean.objetosFiltrados}"
+						editable="true">
+	
+						<p:ajax event="rowEdit" listener="#{objetoManagedBean.onEdit}" update=":messages" />
+						<p:ajax event="rowEditCancel" listener="#{objetoManagedBean.onCancel}" update=":messages" />
+	
+						<p:column filterBy="#{objeto.nome}" sortBy="#{objeto.nome}" headerText="#{msg.nome}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{objeto.nome}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{objeto.nome}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+	
+						<p:column filterBy="#{objeto.tipoDocumental.nome}"  sortBy="#{objeto.tipoDocumental.nome}" filterOptions="#{objetoManagedBean.tiposDocOpt}" filterMatchMode="exact" headerText="#{msg.tipoDocumental}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{objeto.tipoDocumental.nome}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectOneMenu value="#{objeto.tipoDocumental}">
+										<f:selectItems value="#{objetoManagedBean.tiposDoc}" var="tipoDoc" itemLabel="#{tipoDoc.nome}" itemValue="#{tipoDoc}"/>
+									</h:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+							<p:column headerText="" style="width:4%">
+							<p:commandButton value="#{msg.excluir}"  action="#{objetoManagedBean.excluirObjeto}" update=":objetoForm:objetosTable" immediate="true">
+								<f:setPropertyActionListener value="#{objeto}" target="#{objetoManagedBean.objetoSelecionado}" />
+							</p:commandButton>
+						</p:column>
+				
+						<p:column style="width:2%">
+							<f:facet name="header">  
+			                	<h:outputText value="#{msg.editar}" />  
+			           		</f:facet> 
+							<p:rowEditor />
+						</p:column>
+				
+					</p:dataTable>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

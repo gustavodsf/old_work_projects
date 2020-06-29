@@ -1,0 +1,69 @@
+<ui:composition template="/pages/template/common/commonLayout.xhtml"
+					xmlns="http://www.w3.org/1999/xhtml"
+					xmlns:h="http://java.sun.com/jsf/html"
+					xmlns:ui="http://java.sun.com/jsf/facelets"
+					xmlns:f="http://java.sun.com/jsf/core"
+					xmlns:p="http://primefaces.org/ui">
+	<!--  Area para colocar o CSS da Pagina  -->
+	<ui:define name="css">
+	
+	</ui:define>			
+	<!--  Area para colocar o conteudo da Pagina  -->
+	<ui:define name="content">
+		<p:growl id="messages" showDetail="false" autoUpdate="true" sticky="true" />
+			
+			<h:form id="funcaoForm">
+				<p:panel id="cadastrofuncao" header="#{msg.funcaoMenu}" toggleOrientation="horizontal" widgetVar="panel"  styleClass="panel" closable="true" closeSpeed="500">
+ 			
+ 				<p:ajax event="close" oncomplete="$('#content').remove()"/>
+ 				  
+				<h:panelGrid id="funcaoPanel" columns="2" cellpadding="5">
+					
+					<h:outputLabel id="nomeFuncaoLabel" styleClass="label" for="nomeFuncaoField" value="#{msg.nome}:" />
+					<p:inputText id="nomeFuncaoField" styleClass="field" value="#{funcaoManagedBean.funcao.nome}" maxlength="80" required="true" requiredMessage="#{msg.nomeRequerido}"
+						validator="#{funcaoValidator.validaNome}" />
+						
+				</h:panelGrid>
+					
+				<p:commandButton type="submit"	value="#{msg.buttonSave}" action="#{funcaoManagedBean.salvarFuncao}" update=":funcaoForm:funcaoPanel :funcaoForm:funcoesCadastradasTable :messages"
+										 oncomplete="funcaoTable.filter();"/>
+				<p:button value="#{msg.buttonLimpar}"  actionListener="#{funcaoManagedBean.limparFuncao}" />
+					
+				<p:dataTable id="funcoesCadastradasTable" 
+							var="funcao"
+				          value="#{funcaoManagedBean.funcoes}" 
+				      paginator="true" 
+				           rows="10"
+				           rowKey="#{funcao.id}"
+		             widgetVar="funcaoTable" 
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15"
+				filteredValue="#{funcaoManagedBean.funcoesFiltradas}"
+				      editable="true"
+				      emptyMessage="#{msg.listaVaziaFuncao}">
+				
+					<p:ajax event="rowEdit" listener="#{funcaoManagedBean.onEdit}" update=":messages" oncomplete="funcaoTable.filter();"/>
+	                <p:ajax event="rowEditCancel" listener="#{funcaoManagedBean.onCancel}" update=":messages" />
+				
+					 <p:column filterBy="#{funcao.nome}" sortBy="#{funcao.nome}" headerText="#{msg.nome}">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{funcao.nome}" /></f:facet>
+			                <f:facet name="input"><p:inputText value="#{funcao.nome}" /></f:facet>
+			            </p:cellEditor>
+			        </p:column> 
+       				<p:column headerText="" style="width:4%">
+						<p:commandButton value="#{msg.excluir}"  action="#{funcaoManagedBean.excluirFuncaoSelecionada}" update=":funcaoForm:funcoesCadastradasTable" immediate="true" oncomplete="funcaoTable.filter();">
+							<f:setPropertyActionListener value="#{funcao}" target="#{funcaoManagedBean.funcaoSelecionada}" />
+						</p:commandButton>
+					</p:column>
+					<p:column style="width:2%">
+						<f:facet name="header">  
+		                	<h:outputText value="#{msg.editar}" />  
+		           		</f:facet> 
+						<p:rowEditor />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

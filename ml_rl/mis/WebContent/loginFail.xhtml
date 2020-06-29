@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+    <h:head>
+    	<title>MIS|Fundação Museu da Imagem e do Som</title>
+    	<f:loadBundle basename="resources.messages" var="msg" />
+    	<h:outputStylesheet name="authenticate-style.css" library="css" />
+    </h:head>
+   
+     <h:body>
+     	<ui:composition template="/pages/template/common/commonLayout.xhtml">
+    	<div id="content-wrapper">
+    		<ui:define name="content">
+    			<p:panel id="loginPage" header="#{msg.loginTitle}" toggleOrientation="horizontal" widgetVar="panel"> 
+    				<p class="erro">#{msg.erroLogin}</p>
+		    		<form method="post" action="j_security_check">
+		    			<table>
+							<tr>
+								<td><label for="nomeUsuarioField" id="nomeUsuarioLogarLabel" class="label">#{msg.email}:</label></td>
+								<td><input type="text" name="j_username" id="nomeUsuarioLogarField" class="fiedl" style="position: relative; left: 2px"/></td>
+							</tr>
+	       					<tr>
+	       						<td><label for="senhaField" id="senhaLogarLabel" class="label">#{msg.senha}:</label></td>
+	       						<td><input type="password" name="j_password" id="senhaLogarField" class="field"/></td>
+	       					</tr>
+	       					<tr>
+	       						<td><input type="submit" value="#{msg.buttonLogar}"/></td>
+	       					</tr>
+	       				</table>
+				    </form>
+		    	</p:panel>
+		    </ui:define>	
+    	</div>
+    	</ui:composition>
+    </h:body>
+</html>

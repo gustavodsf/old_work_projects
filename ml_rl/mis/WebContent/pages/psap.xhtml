@@ -1,0 +1,111 @@
+
+<ui:composition template="/pages/template/common/commonLayout.xhtml" 
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+				
+	<!--  Area para colocar o CSS da Pagina  -->
+	<ui:define name="css">
+	
+	</ui:define>			
+	<!--  Area para colocar o conteudo da Pagina  -->				
+	<ui:define name="content">
+		
+		<p:growl id="messages" showDetail="true"/>
+		<p:panel id="cadastroPSAP" header="#{msg.PSAPMenu}" toggleOrientation="horizontal"  widgetVar="panel"  styleClass="panel" closable="true" closeSpeed="500">
+ 			
+ 				<p:ajax event="close" oncomplete="$('#content').remove()"/>    
+			    
+   				<h:form id="psapForm">
+					<h:panelGrid id="psapPanel" columns="2" cellpadding="5">
+						<h:outputLabel id="nomePSAPLabel" styleClass="label" for="nomePSAPField" value="#{msg.nome}:" />
+						<p:inputText id="nomePSAPField" styleClass="field" value="#{psapManagedBean.psap.nome}" maxlength="80" required="true" requiredMessage="#{msg.nomeRequerido}" />
+						
+						<h:outputLabel value="#{msg.setor}:" />
+					    <p:selectOneListbox id="setorPSAPField" value="#{psapManagedBean.psap.setor}" required="true">   
+							<f:selectItems value="#{psapManagedBean.setores}" var="setor" itemLabel="#{setor.nomeExibido}" itemValue="#{setor}" />
+					    </p:selectOneListbox>
+					    
+					    <h:outputLabel value="#{msg.tipo}:" />
+					    <p:selectOneListbox id="tipoPSAPField" value="#{psapManagedBean.psap.tipo}" required="true" requiredMessage="#{msg.tipoRequerido}">   
+							<f:selectItem itemValue="album" itemLabel="#{msg.album}" selected="true"  />
+							<f:selectItem itemValue="conjunto"  itemLabel="#{msg.conjunto}"  />
+							<f:selectItem itemValue="programa"  itemLabel="#{msg.programa}"  />
+							<f:selectItem itemValue="projeto"  itemLabel="#{msg.projeto}"  />  
+					    </p:selectOneListbox>
+						
+					</h:panelGrid>
+					
+					<p:commandButton type="submit"	value="#{msg.buttonSave}" action="#{psapManagedBean.salvarPSAP}" update=":psapForm:psapPanel :psapForm:psapsCadastrado :messages"
+									 oncomplete="psapTable.filter();"/>
+					<p:button value="#{msg.buttonLimpar}"  actionListener="#{psapManagedBean.limparPSAP}" />
+					
+	        		<p:dataTable id="psapsCadastrado" 
+	        		 		selection="#{psapManagedBean.psapSelecionado}" 
+	        		 		selectionMode="single"
+   				            var="psap" 
+   				          value="#{psapManagedBean.psaps}"  
+                      paginator="true" 
+                           rows="10"
+                           rowKey="#{psap.id}"  
+                           widgetVar="psapTable" 
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="5,10,15" 
+                 filteredValue="#{psapManagedBean.psapsFiltrado}"
+                 emptyMessage="#{msg.listaVaziaPSAP}"
+                 editable="true">
+                 		
+           		 		 <p:ajax event="rowEdit" listener="#{psapManagedBean.onEdit}" update=":messages :psapForm:psapsCadastrado" oncomplete="psapTable.filter();"/>
+                            <p:ajax event="rowEditCancel" listener="#{psapManagedBean.onCancel}" update=":messages :psapForm:psapsCadastrado"  />
+                 
+						 <p:column  headerText="#{msg.nome}"  sortBy="#{psap.nome}" filterBy="#{psap.nome}" filterMatchMode="contains">  
+			                 <p:cellEditor>  
+				                   <f:facet name="output"><h:outputText value="#{psap.nome}" style="width:100%"/></f:facet>  
+				                   <f:facet name="input"><p:inputText id="modelInput" value="#{psap.nome}" style="width:96%"/></f:facet>  
+				             </p:cellEditor>  
+		            	 </p:column>
+		            	  <p:column headerText="#{msg.setor}" sortBy="#{psap.setor.nomeExibido}" filterBy="#{psap.setor.nomeExibido}" filterMatchMode="startsWith">    
+		           			<p:cellEditor>  
+			           			<f:facet name="output"><h:outputText value="#{psap.setor.nomeExibido}" style="width:100%" /></f:facet> 
+			           			<f:facet name="input">  
+				                    <h:selectOneMenu value="#{psap.setor}" style="width:100%">  
+				                        <f:selectItems value="#{psapManagedBean.setores}" var="setor" itemLabel="#{setor.nomeExibido}" itemValue="#{setor}"  />  
+				                    </h:selectOneMenu>  
+				                </f:facet>  
+				             </p:cellEditor>
+		           		 </p:column>
+		            	 <p:column headerText="#{msg.tipo}" sortBy="#{psap.tipo}" filterBy="#{psap.tipo}" filterMatchMode="startsWith">    
+		           			<p:cellEditor>  
+			           			<f:facet name="output"><h:outputText value="#{psap.tipo}" style="width:100%" /></f:facet> 
+			           			<f:facet name="input">  
+				                    <h:selectOneMenu value="#{psap.tipo}" style="width:100%">  
+				                       	<f:selectItem itemValue="album"     itemLabel="#{msg.album}" selected="true"  />
+										<f:selectItem itemValue="conjunto"  itemLabel="#{msg.conjunto}"  />
+										<f:selectItem itemValue="programa"  itemLabel="#{msg.programa}"  />
+										<f:selectItem itemValue="projeto"   itemLabel="#{msg.projeto}"  /> 
+				                    </h:selectOneMenu>  
+				                </f:facet>  
+				             </p:cellEditor>
+		           		 </p:column>
+       		 			 <p:column headerText="" style="width:4%">
+							<p:commandButton value="#{msg.excluir}"  action="#{psapManagedBean.excluiElementoPSAP}" update=":psapForm:psapsCadastrado :messages" 
+											 immediate="true" oncomplete="psapTable.filter();">
+									<f:setPropertyActionListener value="#{psap}" target="#{psapManagedBean.psapSelecionado}" />
+							</p:commandButton>
+						</p:column>
+						
+						 <p:column style="width:2%">
+							<f:facet name="header">  
+			                	<h:outputText value="#{msg.editar}" />  
+			           		</f:facet> 
+							<p:rowEditor />
+						</p:column>
+				    </p:dataTable> 						
+					
+					
+				</h:form>
+			</p:panel>		
+	</ui:define>
+</ui:composition>
